@@ -1,0 +1,46 @@
+# Publicerar webbfilerna till GitHub Pages när main uppdateras.
+# Källkoden till kalkylarket (apps-script/) läggs inte ut på sidan.
+
+name: Publicera sidan
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Publicera till GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Hämta koden
+        uses: actions/checkout@v4
+
+      - name: Samla webbfilerna
+        run: |
+          mkdir -p _site
+          cp index.html dashboard.html config.js styles.css shared.js app.js dashboard.js favicon.svg manifest.webmanifest _site/
+
+      - name: Förbered Pages
+        uses: actions/configure-pages@v5
+
+      - name: Ladda upp
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Publicera
+        id: deployment
+        uses: actions/deploy-pages@v5
