@@ -1,0 +1,18 @@
+{
+  "name": "Skurmaskin",
+  "short_name": "Skurmaskin",
+  "lang": "sv",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3efe6",
+  "theme_color": "#12352c",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
